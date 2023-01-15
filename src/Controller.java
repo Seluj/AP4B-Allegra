@@ -66,12 +66,12 @@ public class Controller implements Base{
             joueur = 0;
             boolean dernierTour = false;
             int tourJoueur = 0;
-            //Each player gets a turn to play.We loop until the round of the game is over [one player has turned all his cards]
+            //Each player gets a turn to play. We loop until the round of the game is over [one player has turned all his cards]
             while (tourJoueur < nbJoueurs) {
                 jeu.setD(d);
                 jeu.setP(p);
                 printGame(joueur);
-                jeu.swapFrapperButton();
+
                 while (jeu.getAction() == 0 || (jeu.getCardSelected()[0] == -1 && jeu.getCardSelected()[1] == -1)) {
                     System.out.print("");
                 }
@@ -92,6 +92,9 @@ public class Controller implements Base{
                     case 3 -> actPiocheDef(player);
                     default -> System.out.println("Erreur");
                 }
+                if (listJoueurs[joueur].getPlateau().allRetourner()) {
+                    dernierTour = true;
+                }
                 //We move on to the next player but also check if there are three identical alligned cards
                 if (joueur == nbJoueurs-1) {
                     listJoueurs[joueur].cartesAllign(listJoueurs[0]);
@@ -105,13 +108,11 @@ public class Controller implements Base{
                 jeu.printDialog("");
                 jeu.eraseRevealedDrawPile();
                 jeu.setCardSelected(new int[]{-1, -1});
+                jeu.swapFrapperButton(false);
 
                 //Check if the player has returned all his cards and launch the last turn of all the others players
                 if(dernierTour){
                     tourJoueur ++;
-                }
-                if (listJoueurs[joueur].getPlateau().allRetourner()) {
-                    dernierTour = true;
                 }
             }
             setScores(joueur);

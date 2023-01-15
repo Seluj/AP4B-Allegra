@@ -26,6 +26,7 @@ public class Jeu extends JPanel implements Base, ActionListener, MouseListener {
     private MyJLabel redButton;                 // Red button Panel
     private JTextPane messageBox;               // Message box Panel
     private JButton frapperButton;             // Button to hit
+    private JLabel note;
 
     // Table of JPanel to fil the grid.
     // The grid is 5 raw and 5 column.
@@ -105,6 +106,11 @@ public class Jeu extends JPanel implements Base, ActionListener, MouseListener {
             panels[i] = new JPanel();
             panels[i].setLayout(new GridLayout(3, 4, 5, 5));
         }
+
+        note = new JLabel("A vous de jouer !");
+        note.setHorizontalAlignment(SwingConstants.CENTER);
+        note.setVerticalAlignment(SwingConstants.CENTER);
+        note.setFont(new Font("Calibri", Font.BOLD, 20));
 
         // Initialize the table to know which panel is for which player with a given number of player
         switch (nbJoueur) {
@@ -199,6 +205,13 @@ public class Jeu extends JPanel implements Base, ActionListener, MouseListener {
      * Initialize the table of cards for each player
      */
     private void initPanelPlayerCard() {
+        if (nbJoueur != 4 && nbJoueur != 6) {
+            panels[playerJPanels[0] - gap].setLayout(new GridLayout(3, 1));
+            panels[playerJPanels[0] - gap].add(new JLabel());
+            panels[playerJPanels[0] - gap].add(new JLabel());
+            panels[playerJPanels[0] - gap].add(note);
+        }
+
         // For each player and each card of the player initialize the display of the card, add it to the panel and set the listener
         for (int i = 0; i < playerJPanels.length; i++) {
             for (int j = 0; j < 12; j++) {
@@ -206,14 +219,7 @@ public class Jeu extends JPanel implements Base, ActionListener, MouseListener {
                 display_cards[i][j].addMouseListener(this);
                 panels[playerJPanels[i]].add(display_cards[i][j]);
             }
-            if (i == 0) {
-                panels[playerJPanels[i] - gap].setLayout(new GridLayout(3, 1));
-                if (nbJoueur != 4 && nbJoueur != 6) {
-                    panels[playerJPanels[i] - gap].add(new JLabel());
-                    panels[playerJPanels[i] - gap].add(new JLabel());
-                    panels[playerJPanels[i] - gap].add(new JLabel("A vous de jouer !"));
-                }
-            }
+
             namePlayer[i] = new JLabel();
             namePlayer[i].setHorizontalAlignment(SwingConstants.CENTER);
             namePlayer[i].setVerticalAlignment(SwingConstants.CENTER);
@@ -231,7 +237,7 @@ public class Jeu extends JPanel implements Base, ActionListener, MouseListener {
                     }
                 } else {
                     panels[playerJPanels[i] + gap].add(new JLabel());
-                    panels[playerJPanels[i] + gap].add(new JLabel("A vous de jouer !"));
+                    panels[playerJPanels[i] + gap].add(note);
                 }
             }
         }
@@ -312,6 +318,7 @@ public class Jeu extends JPanel implements Base, ActionListener, MouseListener {
     private void initFrapperPanel() {
         frapperButton = new JButton("Frapper");
         frapperButton.setVisible(false);
+        frapperButton.addActionListener(this);
         panels[frapperPanel].setLayout(new GridLayout(3, 3));
         for (int i = 0; i < 9; i++) {
             if (i == 4) {
@@ -497,8 +504,8 @@ public class Jeu extends JPanel implements Base, ActionListener, MouseListener {
         redButton.paintComponent(redButton.getGraphics());
     }
 
-    public void swapFrapperButton() {
-        frapperButton.setVisible(frapperButton.isVisible());
+    public void swapFrapperButton(boolean value) {
+        frapperButton.setVisible(value);
     }
 
     public void printDialog(String message) {
@@ -511,10 +518,15 @@ public class Jeu extends JPanel implements Base, ActionListener, MouseListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // Modify the frame size and location to fit the menu
-        CardLayout cl = (CardLayout) (cards.getLayout());
-        cl.show(cards, "menu");
-        frame.setLocationRelativeTo(null);
+        JDialog ask = new JDialog();
+        String[] numberPossible = {"1", "2", "3", "4", "5"};
+        JComboBox player = new JComboBox(numberPossible);
+        ask.getContentPane().add(player);
+        ask.setSize(800,800);
+        ask.setAlwaysOnTop(true);
+        ask.setLocationRelativeTo(null);
+        ask.setModal(true);
+        ask.setVisible(true);
     }
 
     // Click check in the JPanel
@@ -550,15 +562,19 @@ public class Jeu extends JPanel implements Base, ActionListener, MouseListener {
 
         // If the player clicks on the draw pile we just send message and set the action
         } else if (e.getSource() == hiddenDrawPile) {
+            if (action != 4) {
 
-            // Set the action to 1
-            setAction(1);
+                // Set the action to 1
+                setAction(1);
 
-            // Display information about the action
-            printDialog("Veuillez cliquer sur une de vos cartes pour l'échanger ou sur la défausse pour la défausser");
+                // Display information about the action
+                printDialog("Veuillez cliquer sur une de vos cartes pour l'échanger ou sur la défausse pour la défausser");
 
-            // Display the drawn card
-            printRevealedDrawPile();
+                // Display the drawn card
+                printRevealedDrawPile();
+
+                swapFrapperButton(true);
+            }
 
         // If the player clicks on the discard pile we check if he can draw a card
         } else if (e.getSource() == discardPile) {
