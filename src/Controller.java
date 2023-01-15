@@ -42,17 +42,19 @@ public class Controller implements Base{
             init();
             // We start the round, so we start with the first player
             joueur = 0;
+            boolean dernierTour = false;
+            int tourJoueur = 0;
             //Each player gets a turn to play.We loop until the round of the game is over [one player has turned all his cards]
-            while (!listJoueurs[joueur].getPlateau().allRetourner()) {
+            while (tourJoueur < nbJoueurs) {
                 jeu.setD(d);
                 jeu.setP(p);
                 printGame(joueur);
                 System.out.println(listJoueurs[joueur].getPlateau());
+                jeu.swapFrapperButton();
                 while (jeu.getAction() == 0 || (jeu.getCardSelected()[0] == -1 && jeu.getCardSelected()[1] == -1)) {
                     System.out.print("");
                 }
 
-                System.out.println("Action = " + jeu.getAction() + " | CardSelected = " + jeu.getCardSelected()[0] + " " + jeu.getCardSelected()[1]);
                 if (jeu.getplayerCard()) {
                     player = joueur;
                 } else {
@@ -82,6 +84,13 @@ public class Controller implements Base{
                 jeu.printDialog("");
                 jeu.eraseRevealedDrawPile();
                 jeu.setCardSelected(new int[]{-1, -1});
+
+                if(dernierTour){
+                    tourJoueur ++;
+                }
+                if (listJoueurs[joueur].getPlateau().allRetourner()) {
+                    dernierTour = true;
+                }
             }
             setScores(joueur);
             for (int j = 0; j < nbJoueurs; j++) {
