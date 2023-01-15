@@ -40,6 +40,24 @@ public class Controller implements Base{
         //Loop until the 3 rounds are over
         for (int i = 0; i < 3; i++) {
             init();
+            jeu.setD(d);
+            jeu.setP(p);
+
+            for(int j=0; j<nbJoueurs; j++){
+                for(int carte=0; carte<2; carte++) {
+                    printGame(j);
+                    jeu.setAction(4);
+
+                    while (jeu.getCardSelected()[0] == -1 && jeu.getCardSelected()[1] == -1) {
+                        System.out.print("");
+                    }
+
+                    listJoueurs[j].getPlateau().retourner(jeu.getCardSelected()[0], jeu.getCardSelected()[1]);
+                    System.out.println("x = " + jeu.getCardSelected()[0] + " y = " + jeu.getCardSelected()[1]);
+                    jeu.setCardSelected(new int[]{-1, -1});
+                }
+            }
+
             // We start the round, so we start with the first player
             joueur = 0;
             boolean dernierTour = false;
