@@ -23,7 +23,8 @@ public class Jeu extends JPanel implements Base, ActionListener, MouseListener {
     private MyJLabel revealedDrawPile;          // Revealed draw pile Panel
     private MyJLabel discardPile;               // Discard pile Panel
     private MyJLabel redButton;                 // Red button Panel
-    private JTextPane messageBox;                  // Message box Panel
+    private JTextPane messageBox;               // Message box Panel
+    private JButton frapperButton;             // Button to hit
 
     // Table of JPanel to fil the grid.
     // The grid is 5 raw and 5 column.
@@ -37,6 +38,8 @@ public class Jeu extends JPanel implements Base, ActionListener, MouseListener {
     private int redJPanel;                      // Panel for the help button
 
     private int messagePanel;                   // Panel for the message
+
+    private int frapperPanel;                   // Panel for the hit button
 
 
     Defausse d;                                 // Discard pile
@@ -113,6 +116,7 @@ public class Jeu extends JPanel implements Base, ActionListener, MouseListener {
         initDrawAndDiscardPile();
         initRedButton();
         initMessagePanel();
+        initFrapperPanel();
 
         // Finally, add the all panels to the grid of the main panel
         for (int i = 0; i < nbPanel; i++) {
@@ -241,9 +245,25 @@ public class Jeu extends JPanel implements Base, ActionListener, MouseListener {
         panels[redJPanel].add(redButton);
     }
 
+    /**
+     * Initialize the message panel
+     */
     private void initMessagePanel() {
         messageBox = new JTextPane();
         panels[messagePanel].add(messageBox);
+    }
+
+    private void initFrapperPanel() {
+        frapperButton = new JButton("Frapper");
+        frapperButton.setVisible(false);
+        panels[frapperPanel].setLayout(new GridLayout(3, 3));
+        for (int i = 0; i < 9; i++) {
+            if (i == 4) {
+                panels[frapperPanel].add(frapperButton);
+            } else {
+                panels[frapperPanel].add(new MyJLabel());
+            }
+        }
     }
 
     // ------- Methods to initialize all variables needed to know where to display players' cards and other things ------- //
@@ -258,6 +278,7 @@ public class Jeu extends JPanel implements Base, ActionListener, MouseListener {
         drawAndDiscardJPanel = 12;  // Draw and discard pile
         redJPanel = 6;              // Help button
         messagePanel = 2;           // Message panel
+        frapperPanel = 24;          // Frapper panel
     }
 
     /**
@@ -271,6 +292,7 @@ public class Jeu extends JPanel implements Base, ActionListener, MouseListener {
         drawAndDiscardJPanel = 12;  // Draw and discard pile
         redJPanel = 11;             // Help button
         messagePanel = 2;           // Message panel
+        frapperPanel = 24;          // Frapper panel
     }
 
     /**
@@ -285,6 +307,7 @@ public class Jeu extends JPanel implements Base, ActionListener, MouseListener {
         drawAndDiscardJPanel = 12;  // Draw and discard pile
         redJPanel = 11;             // Help button
         messagePanel = 2;           // Message panel
+        frapperPanel = 24;          // Frapper panel
     }
 
     /**
@@ -300,6 +323,7 @@ public class Jeu extends JPanel implements Base, ActionListener, MouseListener {
         drawAndDiscardJPanel = 17;  // Draw and discard pile
         redJPanel = 16;             // Help button
         messagePanel = 3;           // Message panel
+        frapperPanel = 34;          // Frapper panel
     }
 
     /**
@@ -316,6 +340,7 @@ public class Jeu extends JPanel implements Base, ActionListener, MouseListener {
         drawAndDiscardJPanel = 17;  // Draw and discard pile
         redJPanel = 15;             // Help button
         messagePanel = 3;           // Message panel
+        frapperPanel = 34;          // Frapper panel
     }
 
 
@@ -404,6 +429,10 @@ public class Jeu extends JPanel implements Base, ActionListener, MouseListener {
     public void printRedButton() {
         redButton.setIcon(new ImageIcon("src/images/redButton.png"));
         redButton.paintComponent(redButton.getGraphics());
+    }
+
+    public void swapFrapperButton() {
+        frapperButton.setVisible(frapperButton.isVisible());
     }
 
     public void printDialog(String message) {
