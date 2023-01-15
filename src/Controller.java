@@ -50,8 +50,11 @@ public class Controller implements Base{
                     while (jeu.getCardSelected()[0] == -1 && jeu.getCardSelected()[1] == -1) {
                         System.out.print("");
                     }
-
-                    listJoueurs[j].getPlateau().retourner(jeu.getCardSelected()[0], jeu.getCardSelected()[1]);
+                    if (!listJoueurs[j].getPlateau().isRetourner(jeu.getCardSelected()[0], jeu.getCardSelected()[1])) {
+                        listJoueurs[j].getPlateau().retourner(jeu.getCardSelected()[0], jeu.getCardSelected()[1]);
+                    } else {
+                        carte--;
+                    }
                     jeu.setCardSelected(new int[]{-1, -1});
                 }
             }
@@ -133,7 +136,7 @@ public class Controller implements Base{
         listJoueurs = new Joueur[nbJoueurs];
         //Initialising each player
         for (int i = 0; i < nbJoueurs; i++) {
-            listJoueurs[i] = new Joueur("j" + i, p);
+            listJoueurs[i] = new Joueur("Joueur " + (i+1), p);
         }
     }
 
@@ -146,6 +149,7 @@ public class Controller implements Base{
         // We display the cards of each player, starting with the active player
         for (int i = 0; i < nbJoueurs; i++) {
             jeu.printCard(this.listJoueurs[j%nbJoueurs].getPlateau(), i);
+            jeu.printName(this.listJoueurs[j%nbJoueurs].getNom(), i);
             j++;
         }
 
