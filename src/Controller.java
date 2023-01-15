@@ -43,6 +43,7 @@ public class Controller implements Base{
             jeu.setD(d);
             jeu.setP(p);
 
+            //Every player return these two first cards
             for(int j=0; j<nbJoueurs; j++){
                 for(int carte=0; carte<2; carte++) {
                     printGame(j);
@@ -103,6 +104,7 @@ public class Controller implements Base{
                 jeu.eraseRevealedDrawPile();
                 jeu.setCardSelected(new int[]{-1, -1});
 
+                //Check if the player has returned all his cards and launch the last turn of all the others players
                 if(dernierTour){
                     tourJoueur ++;
                 }
