@@ -58,6 +58,8 @@ public class Controller implements Base{
                 }
             }
 
+            jeu.setAction(0);
+
             // We start the round, so we start with the first player
             joueur = 0;
             boolean dernierTour = false;

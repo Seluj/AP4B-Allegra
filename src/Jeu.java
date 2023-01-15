@@ -474,6 +474,12 @@ public class Jeu extends JPanel implements Base, ActionListener, MouseListener {
                         }
                     }
                 }
+            } else if (action == 4) {
+                for (int j = 0; j < display_cards[0].length; j++) {
+                    if (e.getSource() == display_cards[0][j]) {
+                        setCardSelected(toTable(j));
+                    }
+                }
             }
 
         // If the player clicks on the draw pile we just send message and set the action
