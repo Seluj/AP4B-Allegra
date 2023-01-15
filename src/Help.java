@@ -16,9 +16,6 @@ class Help implements ActionListener {
     // Display the help window
     @Override
     public void actionPerformed(ActionEvent e) {
-        // Log the event
-        System.out.println("Help button pressed");
-
         // Create the help window as a JDialog
         JDialog jDialog = new JDialog();
 

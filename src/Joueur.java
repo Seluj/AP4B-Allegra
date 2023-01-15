@@ -91,7 +91,6 @@ public class Joueur {
                     plateau.retirer(0, i);
                     plateau.retirer(1, i);
                     plateau.retirer(2, i);
-                    System.out.println("Alligned cards removed");
                 }
             }
         }
@@ -103,7 +102,6 @@ public class Joueur {
                     joueur_suivant.plateau.retirer(i,3);
                     plateau.retirer(i, 0);
                     plateau.retirer(i, 1);
-                    System.out.println("Alligned cards removed");
                 }
             }
         }
@@ -116,7 +114,6 @@ public class Joueur {
                         plateau.retirer(j, i);
                         plateau.retirer(j, i+1);
                         plateau.retirer(j, i+2);
-                        System.out.println("Alligned cards removed");
                     }
                 }
             }

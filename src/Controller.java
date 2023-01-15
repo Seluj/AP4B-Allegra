@@ -7,16 +7,16 @@ public class Controller implements Base{
 
     private int nbJoueurs;                          // Number of players
     private final Menu menu = new Menu();           // Menu Panel
-    private Jeu jeu;                                // Game Panel not initialized yet because we don't know the number of players yet
+    private final Jeu jeu;                                // Game Panel not initialized yet because we don't know the number of players yet
     private final Fenetre f = new Fenetre(menu);    // Window which will contain the menu and after initialization of the game, the game
     private Pioche p;                               // Draw pile
     private Defausse d;                             // Discard pile
     private Joueur[] listJoueurs;                   // List of all the players
-    private int joueur;                                     // The current players who's turn it is to play
+    private int joueur;                             // The current players who's turn it is to play
     //Int to keep track of if a player has turned all of his cards, therefore initialising the last round
-    private int cartesRet = 6; //we initialise on 6 because the last player number is 5
+    private final int cartesRet = 6; //we initialise on 6 because the last player number is 5
     //Int indicating the winner of the game [you must win 3 rounds to win the game]
-    private int winner = 6; //we initialise on 6 because the last player number is 5
+    private final int winner = 6; //we initialise on 6 because the last player number is 5
 
 
     // ---------------------- CONSTRUCTOR ---------------------- //
@@ -29,7 +29,6 @@ public class Controller implements Base{
         //Initialized the game and added it to the window
         jeu = new Jeu(nbJoueurs);
         f.addPanel(jeu);
-        System.out.println(p);
         //Changes JPanel to "Jeu"
         CardLayout cl = (CardLayout) (cards.getLayout());
         cl.show(cards, "jeu");
@@ -54,10 +53,11 @@ public class Controller implements Base{
                     }
 
                     listJoueurs[j].getPlateau().retourner(jeu.getCardSelected()[0], jeu.getCardSelected()[1]);
-                    System.out.println("x = " + jeu.getCardSelected()[0] + " y = " + jeu.getCardSelected()[1]);
                     jeu.setCardSelected(new int[]{-1, -1});
                 }
             }
+
+            jeu.setAction(0);
 
             // We start the round, so we start with the first player
             joueur = 0;
@@ -68,7 +68,6 @@ public class Controller implements Base{
                 jeu.setD(d);
                 jeu.setP(p);
                 printGame(joueur);
-                System.out.println(listJoueurs[joueur].getPlateau());
                 jeu.swapFrapperButton();
                 while (jeu.getAction() == 0 || (jeu.getCardSelected()[0] == -1 && jeu.getCardSelected()[1] == -1)) {
                     System.out.print("");
@@ -148,7 +147,6 @@ public class Controller implements Base{
 
         // We display the cards of each player, starting with the active player
         for (int i = 0; i < nbJoueurs; i++) {
-            //System.out.println("boucle printGame"+i);
             jeu.printCard(this.listJoueurs[j%nbJoueurs].getPlateau(), i);
             j++;
         }

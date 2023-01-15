@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -7,7 +6,7 @@ public class Menu extends JPanel implements Base, ActionListener {
 
     // ---------------------- ATTRIBUTES ---------------------- //
 
-    private JComboBox comboBoxNombreJoueurs;
+    private final JComboBox comboBoxNombreJoueurs;
     private JButton buttonStart;
     private int joueurs;
 
@@ -53,7 +52,6 @@ public class Menu extends JPanel implements Base, ActionListener {
     public void setNbJoueurs(){
         String choixJ = (String)comboBoxNombreJoueurs.getSelectedItem();
         this.joueurs = Integer.parseInt(choixJ);
-        System.out.println("Nombre de joueurs choisis:"+joueurs);
     }
 
 
